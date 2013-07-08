@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-public class AutoComplete1 extends Activity {
+public class SearchActivity extends Activity {
 	private List<String> components = new ArrayList<String>();
 	private Map<String, String> mMapAppPackage = new HashMap<String, String>();
     @Override

@@ -10,7 +10,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-public class MydBatWidget extends AppWidgetProvider {
+public class SearchWidget extends AppWidgetProvider {
 
 	private static final String SHOW_DIALOG_ACTION = "com.kienlt.searchappwidget.widgetshowdialog";
 
@@ -48,7 +48,7 @@ public class MydBatWidget extends AppWidgetProvider {
 	    // we launch the activity
 		Log.d("KienLT", "test action = " + intent.getAction());
 		if (intent.getAction().equals(SHOW_DIALOG_ACTION)) {
-			Intent i = new Intent(context, AutoComplete1.class);
+			Intent i = new Intent(context, SearchActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(i);
 		}
@@ -70,7 +70,7 @@ public class MydBatWidget extends AppWidgetProvider {
 
 	    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
-	    ComponentName thisWidget = new ComponentName(context, MydBatWidget.class);
+	    ComponentName thisWidget = new ComponentName(context, SearchWidget.class);
 
 	    // Fetch all instances of our widget 
 	    // from the AppWidgetManager manager.
@@ -85,7 +85,7 @@ public class MydBatWidget extends AppWidgetProvider {
 
 	      // Create intent that launches the
 	      // modal popup activity
-	      Intent intent = new Intent(context, MydBatWidget.class);
+	      Intent intent = new Intent(context, SearchWidget.class);
 	      intent.setAction(SHOW_DIALOG_ACTION);
 
 	      PendingIntent pendingIntent = PendingIntent.getBroadcast(
