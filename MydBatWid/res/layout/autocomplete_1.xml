@@ -19,6 +19,8 @@
         android:layout_margin="10dp" 
         android:singleLine="true"
         android:dropDownHeight="150dp"
-        />
+        >
+        <requestFocus />
+        </AutoCompleteTextView>
     
 </LinearLayout>
