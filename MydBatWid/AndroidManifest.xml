@@ -26,6 +26,7 @@
 		  android:name="com.kienlt.searchappwidget.SearchActivity"
 		  android:noHistory="true"
 		  android:theme="@android:style/Theme.Dialog"
+		  android:windowSoftInputMode="stateAlwaysVisible"
 		  />
     </application>
 

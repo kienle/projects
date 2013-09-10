@@ -40,6 +40,7 @@ public class SearchActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, components);
         AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.edit);
+        textView.requestFocus();
         textView.setAdapter(adapter);
         textView.setOnItemClickListener(new OnItemClickListener() {
 
