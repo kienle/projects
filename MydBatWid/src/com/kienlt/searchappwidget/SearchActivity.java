@@ -42,6 +42,7 @@ public class SearchActivity extends Activity {
         int width = displaymetrics.widthPixels;
         
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, height);
+        mRoot.setPadding(10, 10, 10, 10);
         mRoot.setLayoutParams(params);
         
 		try {
@@ -52,7 +53,7 @@ public class SearchActivity extends Activity {
 			e.printStackTrace();
 		}
 		
-		LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(width - 80, LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		textViewParams.setMargins(10, 10, 10, 10);
         
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -71,22 +72,6 @@ public class SearchActivity extends Activity {
 				startActivity(pm.getLaunchIntentForPackage(mMapAppPackage.get(arg0.getItemAtPosition(arg2).toString())));
 			}
 		});
-//        textView.setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//			@Override
-//			public void onItemSelected(AdapterView<?> arg0, View arg1,
-//					int arg2, long arg3) {
-//				// TODO Auto-generated method stub
-//				PackageManager pm = getPackageManager();
-//				startActivity(pm.getLaunchIntentForPackage(components.get(arg2)));
-//			}
-//
-//			@Override
-//			public void onNothingSelected(AdapterView<?> arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
     }
     
     private List<String> getInstalledComponentList() throws NameNotFoundException {
@@ -126,41 +111,12 @@ public class SearchActivity extends Activity {
     			} else {
     				name = ri.activityInfo.applicationInfo.loadLabel(getPackageManager()).toString();
     			}
+    			
     			list.put(name, ri.activityInfo.applicationInfo.packageName);
 //    			componentList.add(name);
     		}
     	}
     	return list;
     }
-    
-//    private List<String> getAllPackageName() {
-//    	List<String> packageName = new ArrayList<String>();
-//    	final PackageManager pm = getPackageManager();
-//    	//get a list of installed apps.
-//    	List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-//
-//    	for (ApplicationInfo packageInfo : packages) {
-//    	    Log.d("KienLT", "Installed package :" + packageInfo.packageName);
-//    	    Log.d("KienLT", "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
-//    	    packageName.add(packageInfo.packageName);
-//    	}
-//    	
-//    	return packageName;
-//    }
-//    private List<String> getInstalledComponentList() {
-//        Intent componentSearchIntent = new Intent();
-//        componentSearchIntent.addCategory(Constants.COMPONENTS_INTENT_CATEGORY);
-//        componentSearchIntent.setAction(Constants.COMPONENTS_INTENT_ACTION_DEFAULT);
-//        List<ResolveInfo> ril = getPackageManager().queryIntentActivities(componentSearchIntent, PackageManager.MATCH_DEFAULT_ONLY);
-//        List<String> componentList = new ArrayList<String>();
-//        Log.d("KienLT", "Search for installed components found " + ril.size() + " matches.");
-//        for (ResolveInfo ri : ril) {
-//            if (ri.activityInfo != null) {
-//                componentList.add(ri.activityInfo.packageName);// + ri.activityInfo.name);
-//                Log.d("KienLT", "Found installed: " + componentList.get(componentList.size()-1));
-//            }
-//        }
-//        return componentList;
-//    }
 
 }
