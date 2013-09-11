@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -45,34 +46,80 @@ public class SearchActivity extends Activity {
         mRoot.setPadding(10, 10, 10, 10);
         mRoot.setLayoutParams(params);
         
-		try {
-			components = getInstalledComponentList();
-			mMapAppPackage = getInstalledAppList();
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		textViewParams.setMargins(10, 10, 10, 10);
+//		try {
+//			components = getInstalledComponentList();
+//			mMapAppPackage = getInstalledAppList();
+//		} catch (NameNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+//		textViewParams.setMargins(10, 10, 10, 10);
+//        
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, components);
+//        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.edit);
+//        textView.setLayoutParams(textViewParams);
+//        textView.requestFocus();
+//        textView.setAdapter(adapter);
+//        textView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+//					long arg3) {
+//				// TODO Auto-generated method stub
+//				PackageManager pm = getPackageManager();
+//				startActivity(pm.getLaunchIntentForPackage(mMapAppPackage.get(arg0.getItemAtPosition(arg2).toString())));
+//			}
+//		});
         
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, components);
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.edit);
-        textView.setLayoutParams(textViewParams);
-        textView.requestFocus();
-        textView.setAdapter(adapter);
-        textView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				PackageManager pm = getPackageManager();
-				startActivity(pm.getLaunchIntentForPackage(mMapAppPackage.get(arg0.getItemAtPosition(arg2).toString())));
-			}
-		});
+        GetDataTask task = new GetDataTask();
+        task.execute();
     }
+    
+    private class GetDataTask extends AsyncTask<Void, Void, List<String>> {
+    	@Override
+    	protected List<String> doInBackground(Void... params) {
+
+    		try {
+    			components = getInstalledComponentList();
+    			mMapAppPackage = getInstalledAppList();
+    		} catch (NameNotFoundException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		
+    		return components;
+    	}
+    	
+    	@Override
+    	protected void onPostExecute(List<String> result) {
+    		super.onPostExecute(result);
+    		
+    		LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+    		textViewParams.setMargins(10, 10, 10, 10);
+    		
+    		ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchActivity.this,
+                    android.R.layout.simple_dropdown_item_1line, result);
+            AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.edit);
+            textView.setLayoutParams(textViewParams);
+            textView.requestFocus();
+            textView.setAdapter(adapter);
+            textView.setOnItemClickListener(new OnItemClickListener() {
+
+    			@Override
+    			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+    					long arg3) {
+    				// TODO Auto-generated method stub
+    				PackageManager pm = getPackageManager();
+    				startActivity(pm.getLaunchIntentForPackage(mMapAppPackage.get(arg0.getItemAtPosition(arg2).toString())));
+    			}
+    		});
+    		
+    	}
+    }
+    
     
     private List<String> getInstalledComponentList() throws NameNotFoundException {
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
