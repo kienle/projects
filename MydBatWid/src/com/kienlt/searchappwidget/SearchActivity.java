@@ -7,21 +7,25 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 public class SearchActivity extends Activity {
+	private LinearLayout mRoot;
+	
 	private List<String> components = new ArrayList<String>();
 	private Map<String, String> mMapAppPackage = new HashMap<String, String>();
     @Override
@@ -29,6 +33,16 @@ public class SearchActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.autocomplete_1);
+        
+        mRoot = (LinearLayout) findViewById(R.id.root);
+        
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, height);
+        mRoot.setLayoutParams(params);
         
 		try {
 			components = getInstalledComponentList();
@@ -38,9 +52,13 @@ public class SearchActivity extends Activity {
 			e.printStackTrace();
 		}
 		
+		LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(width - 80, LayoutParams.WRAP_CONTENT);
+		textViewParams.setMargins(10, 10, 10, 10);
+        
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, components);
         AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.edit);
+        textView.setLayoutParams(textViewParams);
         textView.requestFocus();
         textView.setAdapter(adapter);
         textView.setOnItemClickListener(new OnItemClickListener() {

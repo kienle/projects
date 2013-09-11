@@ -80,8 +80,7 @@ public class SearchWidget extends AppWidgetProvider {
 	    int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 	    for (int widgetId : allWidgetIds) {
 
-	      RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-	          R.layout.widget_layout);
+	      RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
 	      // Create intent that launches the
 	      // modal popup activity
@@ -91,8 +90,7 @@ public class SearchWidget extends AppWidgetProvider {
 	      PendingIntent pendingIntent = PendingIntent.getBroadcast(
 	          context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-	      // Attach the onclick listener to 
-	      // the widget button
+	      // Attach the onclick listener to the widget button
 	      remoteViews.setOnClickPendingIntent(R.id.btShow, pendingIntent);
 	      appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
